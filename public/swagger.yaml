@@ -1,0 +1,356 @@
+components:
+    examples: {}
+    headers: {}
+    parameters: {}
+    requestBodies: {}
+    responses: {}
+    schemas:
+        SignupResponse:
+            properties:
+                code:
+                    type: number
+                    format: double
+                message:
+                    type: string
+            required:
+                - code
+                - message
+            type: object
+            additionalProperties: false
+        LoginResponse:
+            properties:
+                code:
+                    type: number
+                    format: double
+                message:
+                    type: string
+                refreshToken:
+                    type: string
+                accessToken:
+                    type: string
+            required:
+                - code
+                - message
+                - refreshToken
+                - accessToken
+            type: object
+            additionalProperties: false
+        verifyResponse:
+            properties:
+                message:
+                    type: string
+                code:
+                    type: number
+                    format: double
+            required:
+                - message
+                - code
+            type: object
+            additionalProperties: false
+        FlattenMaps_T_:
+            properties: {}
+            type: object
+        UserDocument:
+            $ref: '#/components/schemas/FlattenMaps_T_'
+        LoginDetailResponse:
+            properties:
+                code:
+                    type: number
+                    format: double
+                data:
+                    allOf:
+                        -
+                            $ref: '#/components/schemas/UserDocument'
+                    nullable: true
+            required:
+                - code
+                - data
+            type: object
+            additionalProperties: false
+        SessionResponse:
+            properties:
+                _id:
+                    type: string
+                name:
+                    type: string
+                email:
+                    type: string
+            required:
+                - _id
+                - name
+                - email
+            type: object
+            additionalProperties: false
+        uploadImageResponse:
+            properties:
+                code:
+                    type: number
+                    format: double
+                message:
+                    type: string
+            required:
+                - code
+                - message
+            type: object
+            additionalProperties: false
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+info:
+    title: express-typescript
+    version: 1.0.0
+    license:
+        name: ISC
+    contact: {}
+openapi: 3.0.0
+paths:
+    /api/auth/signup:
+        post:
+            operationId: Signup
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SignupResponse'
+                            examples:
+                                'Example 1':
+                                    value: {code: 200, message: 'Signed Up Successfully'}
+            tags:
+                - Auth
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+                                conformPassword:
+                                    type: string
+                                role:
+                                    type: string
+                            required:
+                                - name
+                                - email
+                                - password
+                                - conformPassword
+                                - role
+    /api/auth/login:
+        post:
+            operationId: Login
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginResponse'
+                            examples:
+                                'Example 1':
+                                    value: {accessToken: 'JWT Token', refreshToken: 'JWT Token', code: 200, message: 'Signed Up Successfully'}
+            tags:
+                - Auth
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                email: {}
+                                password: {}
+                            required:
+                                - email
+                                - password
+                            type: object
+    /api/auth/email/verify:
+        post:
+            operationId: VerifyEmail
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                properties:
+                                    message: {type: string}
+                                    code: {type: number, format: double}
+                                required:
+                                    - message
+                                    - code
+                                type: object
+                            examples:
+                                'Example 1':
+                                    value: {code: 200, message: 'Your account is verified successfully'}
+            tags:
+                - Auth
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                email:
+                                    type: string
+                                verificationCode:
+                                    type: string
+                            required:
+                                - email
+                                - verificationCode
+                            type: object
+    /api/auth/profile:
+        post:
+            operationId: GetProfileDetails
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/verifyResponse'
+            tags:
+                - Auth
+            security: []
+            parameters:
+                -
+                    in: query
+                    name: email
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                image:
+                                    type: string
+                                    format: binary
+                                phoneNumber:
+                                    type: string
+                                address:
+                                    type: string
+                            required:
+                                - image
+                                - phoneNumber
+                                - address
+    /api/auth/login/details:
+        get:
+            operationId: GetLoginDetails
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginDetailResponse'
+            tags:
+                - Auth
+            security: []
+            parameters:
+                -
+                    in: query
+                    name: email
+                    required: true
+                    schema:
+                        type: string
+    /api/session:
+        get:
+            operationId: GetSessionInfo
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SessionResponse'
+                            examples:
+                                'Example 1':
+                                    value: {_id: '3928439', name: 'HS Rajput', email: email@gmail.com}
+            tags:
+                - Session
+            security:
+                -
+                    bearerAuth: []
+            parameters: []
+    /api/medicine/upload:
+        post:
+            operationId: GetMedicineFile
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                anyOf:
+                                    - {$ref: '#/components/schemas/uploadImageResponse'}
+                                    - {type: string}
+            tags:
+                - Medicine
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                description:
+                                    type: string
+                                weight:
+                                    type: string
+                                expireDate:
+                                    type: string
+                                dosageInstructions:
+                                    type: string
+                                availability:
+                                    type: string
+                                price:
+                                    type: string
+                                quantity:
+                                    type: string
+                                image:
+                                    items: {type: string, format: binary}
+                                    type: array
+                            required:
+                                - name
+                                - description
+                                - weight
+                                - expireDate
+                                - dosageInstructions
+                                - availability
+                                - price
+                                - quantity
+                                - image
+servers:
+    -
+        url: /
+tags:
+    -
+        name: Auth
+        description: 'Operations about auth'
+    -
+        name: Session
+        description: 'Operations about session'
+    -
+        name: Medicine
+        description: 'Operations about Medicine'
