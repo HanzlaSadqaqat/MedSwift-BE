@@ -16,14 +16,21 @@ export interface MedicineDocument extends Document {
   imageUrl: string[]
   userId: Types.ObjectId
 }
-
+export interface editDetailPayload {
+  price: number
+  quantity: number
+}
 export interface MedicineResponse {
   code: number
   message: string
 }
 export interface medicineDetailResponse {
-  code: 200
+  code: number
   data: MedicineDocument[]
+}
+export interface sendEditMedicineResponse {
+  code: number
+  message: string
 }
 export interface uploadImageResponse extends MedicineResponse {}
 

@@ -93,6 +93,34 @@ components:
                 - message
             type: object
             additionalProperties: false
+        MedicineDocument:
+            $ref: '#/components/schemas/FlattenMaps_T_'
+        medicineDetailResponse:
+            properties:
+                code:
+                    type: number
+                    format: double
+                data:
+                    items:
+                        $ref: '#/components/schemas/MedicineDocument'
+                    type: array
+            required:
+                - code
+                - data
+            type: object
+            additionalProperties: false
+        sendEditMedicineResponse:
+            properties:
+                code:
+                    type: number
+                    format: double
+                message:
+                    type: string
+            required:
+                - code
+                - message
+            type: object
+            additionalProperties: false
     securitySchemes:
         bearerAuth:
             type: http
@@ -347,6 +375,56 @@ paths:
                                 - price
                                 - quantity
                                 - image
+    /api/medicine/detail:
+        get:
+            operationId: GetMedicineDetails
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/medicineDetailResponse'
+            tags:
+                - Medicine
+            security: []
+            parameters: []
+    /api/medicine/edit:
+        patch:
+            operationId: EditMedicineDetails
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/sendEditMedicineResponse'
+            tags:
+                - Medicine
+            security: []
+            parameters:
+                -
+                    in: query
+                    name: id
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                _quantity:
+                                    type: number
+                                    format: double
+                                _price:
+                                    type: number
+                                    format: double
+                            required:
+                                - _quantity
+                                - _price
+                            type: object
 servers:
     -
         url: /

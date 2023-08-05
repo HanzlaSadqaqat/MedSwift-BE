@@ -1,6 +1,7 @@
-import Medicine, { MedicineDocument, medicineDetailResponse, uploadImageResponse } from '../models/Medicine'
-import { Post, Route, Tags, UploadedFiles, FormField, Query } from 'tsoa'
+import Medicine, { MedicineDocument, medicineDetailResponse, sendEditMedicineResponse, uploadImageResponse } from '../models/Medicine'
+import { Post, Route, Tags, UploadedFiles, FormField, Query, Get, BodyProp, Patch } from 'tsoa'
 import { uploader } from '../utils/s3Utils'
+import { Types } from 'mongoose'
 
 @Route('api/medicine')
 @Tags('Medicine')
@@ -58,13 +59,33 @@ export class medicineController {
       message: 'image uploaded succssfully'
     }
   }
-  @Route('api/detail')
+  @Get('/detail')
   async getMedicineDetails(): Promise<medicineDetailResponse> {
     const data = await Medicine.find()
 
     return {
       code: 200,
       data: data
+    }
+  }
+  @Patch('/edit')
+  async editMedicineDetails(@Query() id: string, @BodyProp() quantity: number, @BodyProp() price: number): Promise<sendEditMedicineResponse> {
+    console.log('Here in controller')
+    console.log(id)
+    await Medicine.updateOne(
+      { _id: new Types.ObjectId(id) },
+      {
+        $set: {
+          price,
+          quantity
+        }
+      }
+    )
+    console.log('done')
+
+    return {
+      code: 200,
+      message: 'Data updated successfully'
     }
   }
 }
