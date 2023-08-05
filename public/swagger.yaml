@@ -304,7 +304,13 @@ paths:
             tags:
                 - Medicine
             security: []
-            parameters: []
+            parameters:
+                -
+                    in: query
+                    name: userId
+                    required: true
+                    schema:
+                        type: string
             requestBody:
                 required: true
                 content:

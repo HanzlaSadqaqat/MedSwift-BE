@@ -62,8 +62,6 @@ authRouter.post('/email/verify', async (req: Request, res: Response) => {
 })
 authRouter.post('/profile/:email', multerUploads.single('image'), async (req: Request, res: Response) => {
   try {
-    console.log('start')
-    console.log(req.body)
     const { error, value: body } = profileValidation(req.body)
     if (error) return res.status(403).send(error.details[0].message)
     console.log(req.params)

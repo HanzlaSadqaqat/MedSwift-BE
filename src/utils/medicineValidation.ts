@@ -10,7 +10,8 @@ export const medicineInfoValidation = (data: MedicineDocument): Joi.ValidationRe
     dosageInstructions: Joi.string().required(),
     availability: Joi.boolean().required(),
     price: Joi.number().required(),
-    quantity: Joi.number().required()
+    quantity: Joi.number().required(),
+    userId: Joi.object()
   }).validate(data)
 
 // export const medicineFileValidation = (data: UploadedImage): Joi.ValidationResult =>
