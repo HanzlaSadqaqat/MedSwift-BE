@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express'
 import { medicineController } from '../../controllers/medicine'
-import { medicineInfoValidation } from '../../utils/medicineValidation'
+import { editDetailValidation, medicineInfoValidation } from '../../utils/medicineValidation'
 // import { MedicineResponse } from '../../models/Medicine'
 
 import { multerUploads } from '../../middleware/multerMiddleware'
 import { medicineDetailResponse } from '../../models/Medicine'
+import { verifyResponse } from 'src/models/User'
 
 const medicineRouter = express.Router()
 const controller = new medicineController()
@@ -44,6 +45,17 @@ medicineRouter.get('/detail', async (_req: Request, res: Response) => {
     return res.status(response.code).json(response.data)
   } catch (error) {
     return res.status(403).send(error)
+  }
+})
+medicineRouter.patch('/edit/:id', async (req: Request, res: Response) => {
+  try {
+    const { error, value: body } = editDetailValidation(req.body)
+    if (error) return res.status(403).send(error.details[0].message)
+    const response: verifyResponse = await controller.editMedicineDetails(req.params.id, body.quantity, body.price)
+
+    return res.status(response.code).send(response.message)
+  } catch (error) {
+    return res.send(error.code).send(error.message)
   }
 })
 export default medicineRouter

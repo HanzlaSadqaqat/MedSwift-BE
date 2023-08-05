@@ -1,4 +1,4 @@
-import { MedicineDocument } from 'src/models/Medicine'
+import { MedicineDocument, editDetailPayload } from 'src/models/Medicine'
 import Joi from 'joi'
 
 export const medicineInfoValidation = (data: MedicineDocument): Joi.ValidationResult =>
@@ -12,6 +12,12 @@ export const medicineInfoValidation = (data: MedicineDocument): Joi.ValidationRe
     price: Joi.number().required(),
     quantity: Joi.number().required(),
     userId: Joi.object()
+  }).validate(data)
+
+export const editDetailValidation = (data: editDetailPayload): Joi.ValidationResult =>
+  Joi.object({
+    price: Joi.number(),
+    quantity: Joi.number()
   }).validate(data)
 
 // export const medicineFileValidation = (data: UploadedImage): Joi.ValidationResult =>
