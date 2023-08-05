@@ -1,5 +1,5 @@
 import Medicine, { MedicineDocument, medicineDetailResponse, uploadImageResponse } from '../models/Medicine'
-import { Post, Route, Tags, UploadedFiles, FormField } from 'tsoa'
+import { Post, Route, Tags, UploadedFiles, FormField, Query } from 'tsoa'
 import { uploader } from '../utils/s3Utils'
 
 @Route('api/medicine')
@@ -15,6 +15,7 @@ export class medicineController {
     @FormField() availability,
     @FormField() price,
     @FormField() quantity,
+    @Query() userId,
     @UploadedFiles() image: Express.Multer.File[]
   ): Promise<uploadImageResponse | string> {
     const uploadedPromise = await image.map(async (image) => {
@@ -47,10 +48,11 @@ export class medicineController {
       availability,
       price,
       quantity,
+      userId,
       imageUrl
     })
     await newMedicine.save()
-    console.log(newMedicine)
+    console.log('done')
     return {
       code: 200,
       message: 'image uploaded succssfully'

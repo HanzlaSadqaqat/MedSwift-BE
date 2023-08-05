@@ -9,12 +9,12 @@ import { medicineDetailResponse } from '../../models/Medicine'
 const medicineRouter = express.Router()
 const controller = new medicineController()
 
-medicineRouter.post('/upload', multerUploads.array('image'), async (req: Request, res: Response) => {
+medicineRouter.post('/upload/:userId', multerUploads.array('image'), async (req: Request, res: Response) => {
   try {
     if (!req.files || !req.files.length) return res.status(403).send('File not Found')
+    console.log(req.params.userId)
     const { error, value: body } = medicineInfoValidation(req.body)
     if (error) return res.status(403).send(error.details[0].message)
-
     const files = req.files as Express.Multer.File[]
     const response: any = await controller.getMedicineFile(
       body.name,
@@ -25,6 +25,7 @@ medicineRouter.post('/upload', multerUploads.array('image'), async (req: Request
       body.availability,
       body.price,
       body.quantity,
+      req.params.userId,
       files
     )
 

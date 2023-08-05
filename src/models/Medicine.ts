@@ -4,6 +4,7 @@ import mongoose, { Date, Document, Model, Schema, Types } from 'mongoose'
 const schema = mongoose.Schema
 
 export interface MedicineDocument extends Document {
+  // userEmail: string
   name: string
   description: string
   weight: string
@@ -13,7 +14,7 @@ export interface MedicineDocument extends Document {
   price: number
   quantity: number
   imageUrl: string[]
-  user: Types.ObjectId
+  userId: Types.ObjectId
 }
 
 export interface MedicineResponse {
@@ -27,6 +28,7 @@ export interface medicineDetailResponse {
 export interface uploadImageResponse extends MedicineResponse {}
 
 const medicineSchema = new schema<MedicineDocument>({
+  // userEmail: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
   weight: { type: String },
@@ -36,7 +38,7 @@ const medicineSchema = new schema<MedicineDocument>({
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
   imageUrl: Array,
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   }
