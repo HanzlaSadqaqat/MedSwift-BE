@@ -26,7 +26,7 @@ export interface MedicineResponse {
 }
 export interface medicineDetailResponse {
   code: number
-  data: MedicineDocument[]
+  data: MedicineDocument[] | null
 }
 export interface sendEditMedicineResponse {
   code: number
