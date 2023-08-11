@@ -39,7 +39,6 @@ medicineRouter.post('/upload/:userId', multerUploads.array('image'), async (req:
 medicineRouter.get('/detail', async (_req: Request, res: Response) => {
   try {
     const response: medicineDetailResponse = await controller.getMedicineDetails()
-
     if (!response) return res.status(403).send('Network Error')
 
     return res.status(response.code).json(response.data)
