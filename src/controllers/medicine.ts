@@ -61,13 +61,8 @@ export class medicineController {
   }
   @Get('/detail')
   async getMedicineDetails(): Promise<medicineDetailResponse> {
-    // console.log(id)
-    // let getData
-    // if (!id) {
     const data = await Medicine.find()
-    // } else {
-    //   getData = await Medicine.findById({ _id: new Types.ObjectId(id) })
-    // }
+
     return {
       code: 200,
       data: data
