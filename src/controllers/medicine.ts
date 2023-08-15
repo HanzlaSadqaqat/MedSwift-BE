@@ -56,7 +56,7 @@ export class medicineController {
     console.log('done')
     return {
       code: 200,
-      message: 'image uploaded succssfully'
+      message: 'image uploaded successfully'
     }
   }
   @Get('/detail')
@@ -70,7 +70,6 @@ export class medicineController {
   }
   @Patch('/edit')
   async editMedicineDetails(@Query() id: string, @BodyProp() quantity: number, @BodyProp() price: number): Promise<sendEditMedicineResponse> {
-    console.log('Here in controller')
     console.log(id)
     await Medicine.updateOne(
       { _id: new Types.ObjectId(id) },
