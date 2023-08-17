@@ -5,20 +5,33 @@ const schema = mongoose.Schema
 export interface OrderDocument extends Document {
   productId: string
   quantity: number
+  totalQuantity: number
   name: string
   price: number
-  userId: string
+  sellerId: string
+  buyerId: string
+  buyerName: string
+  buyerEmail: string
+  buyerNumber: string
+  address: string
 }
 export interface ordersDetailResponse {
   code: number
-  data: object
+  data: OrderDocument[]
 }
 const orderSchema = new schema<OrderDocument>({
   productId: { type: String, required: true },
   quantity: { type: Number, required: true },
+  totalQuantity: { type: Number },
   name: { type: String },
   price: { type: Number, required: true },
-  userId: { type: String, required: true }
+  sellerId: { type: String, required: true },
+  buyerId: { type: String, required: true },
+  buyerName: { type: String },
+  buyerEmail: { type: String },
+
+  buyerNumber: { type: String },
+  address: { type: String, required: true }
 })
 
 const Orders: Model<OrderDocument> = mongoose.model<OrderDocument>('Orders', orderSchema)

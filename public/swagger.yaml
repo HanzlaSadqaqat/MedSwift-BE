@@ -122,6 +122,22 @@ components:
                 - message
             type: object
             additionalProperties: false
+        OrderDocument:
+            $ref: '#/components/schemas/FlattenMaps_T_'
+        ordersDetailResponse:
+            properties:
+                code:
+                    type: number
+                    format: double
+                data:
+                    items:
+                        $ref: '#/components/schemas/OrderDocument'
+                    type: array
+            required:
+                - code
+                - data
+            type: object
+            additionalProperties: false
     securitySchemes:
         bearerAuth:
             type: http
@@ -451,15 +467,29 @@ paths:
                                 quantity:
                                     type: number
                                     format: double
-                                userId:
+                                customerId:
                                     type: string
                                 price: {}
                             required:
                                 - productId
                                 - quantity
-                                - userId
+                                - customerId
                                 - price
                             type: object
+    /api/orders/details:
+        post:
+            operationId: GetOrdersDetail
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ordersDetailResponse'
+            tags:
+                - Orders
+            security: []
+            parameters: []
 servers:
     -
         url: /
