@@ -70,7 +70,6 @@ export class medicineController {
   }
   @Patch('/edit')
   async editMedicineDetails(@Query() id: string, @BodyProp() quantity: number, @BodyProp() price: number): Promise<sendEditMedicineResponse> {
-    console.log(id)
     await Medicine.updateOne(
       { _id: new Types.ObjectId(id) },
       {

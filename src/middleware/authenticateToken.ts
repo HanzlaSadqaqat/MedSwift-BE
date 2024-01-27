@@ -7,7 +7,7 @@ const validateAccessToken = async (req: Request, res: Response, next: NextFuncti
   try {
     let token = req.headers['authorization']
     if (!token) {
-      throw 401
+      throw { code: 401, message: 'token not found' }
     }
     if (token) {
       token = token.split(' ')[1]

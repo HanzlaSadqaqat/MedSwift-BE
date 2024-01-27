@@ -1,5 +1,5 @@
 import mongoose, { Document, Model } from 'mongoose'
-let schema = mongoose.Schema
+const schema = mongoose.Schema
 
 enum role {
   BUYER = 'BUYER',

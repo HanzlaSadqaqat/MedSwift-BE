@@ -17,7 +17,6 @@ app.use('*', cloudinaryConfig)
 
 const appPromise = async () => {
   const port = process.env.PORT || 8080
-  //  app.use(upload.any())
   app.use(express.json({ limit: '100mb' }))
   app.use(express.static(path.join(__dirname, '../public')))
   app.use(express.urlencoded({ extended: true }))

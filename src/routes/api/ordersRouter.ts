@@ -13,7 +13,7 @@ orderRouter.post('/', async (req: Request, res: Response) => {
     console.log('validation done')
     if (error) return res.status(403).send(error.details[0].message)
     const response: verifyResponse = await controller.getOrders(body.productId, body.quantity, body.customerId, body.price)
-    return res.status(response.code).send(response.message)
+    return res.status(response.code).send(response)
   } catch (error) {
     return res.status(error.code || 403).send(error.message || 'Network Error')
   }
