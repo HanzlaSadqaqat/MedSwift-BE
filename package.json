@@ -7,9 +7,9 @@
     "build": "rimraf dist && npx tsc",
     "postbuild": "npm run public:copy",
     "public:copy": "cp -r ./public/ ./dist/public/",
-    "start": "node ./dist/src/app.js",
+    "start": "node ./dist/api/index.js",
     "swagger": "tsoa spec",
-    "dev": "nodemon src/app.ts"
+    "dev": "nodemon api/src.ts"
   },
   "keywords": [],
   "author": "",

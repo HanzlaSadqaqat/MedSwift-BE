@@ -32,3 +32,5 @@ const appPromise = async () => {
 }
 
 appPromise()
+
+export default app
