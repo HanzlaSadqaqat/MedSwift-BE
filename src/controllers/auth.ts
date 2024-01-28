@@ -11,7 +11,7 @@ import { uploader } from '../utils/s3Utils'
 @Route('api/auth')
 @Tags('Auth')
 export class AuthController {
-  @Post('/signup')      
+  @Post('/signup')
   @Example<SignupResponse>(signupExample)
   async signup(
     @FormField() name,
@@ -21,7 +21,7 @@ export class AuthController {
     @FormField() role
   ): Promise<SignupResponse> {
     const existingUser: UserDocument | null = await User.findOne({ email })
-  
+
     if (existingUser) {
       throw {
         code: 403,
@@ -142,7 +142,7 @@ export class AuthController {
     if (!findUser)
       throw {
         code: 403,
-        message: 'User Not Found'     
+        message: 'User Not Found'
       }
     const uploadImagePromise = await uploader.upload(image.path, { upload_preset: 'uploadPictures' })
 
