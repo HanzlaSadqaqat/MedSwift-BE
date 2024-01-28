@@ -1,13 +1,13 @@
 {
   "name": "express-typescript",
   "version": "1.0.0",
-  "main": "./dist/src/index.js",
+  "main": "./dist/src/app.js",
   "scripts": {
     "prebuild": "npm run swagger && npm i",
     "build": "rimraf dist && npx tsc",
     "postbuild": "npm run public:copy",
     "public:copy": "cp -r ./public/ ./dist/public/",
-    "start": "node ./dist/api/index.js",
+    "start": "node ./dist/src/app.js",
     "swagger": "tsoa spec",
     "dev": "nodemon api/src.ts",
     "vercel-build": "echo hello"
