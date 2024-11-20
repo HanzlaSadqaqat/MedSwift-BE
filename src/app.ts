@@ -21,8 +21,8 @@ const appPromise = async () => {
   app.use(express.static(path.join(__dirname, '../public')))
   app.use(express.urlencoded({ extended: true }))
   app.use(cors())
+  app.get('/demo', (_req, res) => res.status(200).send('working properly'))
   app.use('/api', router)
-
   await mongoose.connect(`${process.env.MONGO_URI}`).then(() => {
     console.log('MongoDB connected')
   })
